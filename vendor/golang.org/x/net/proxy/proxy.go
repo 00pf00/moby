@@ -12,6 +12,7 @@ import (
 	"net/url"
 	"os"
 	"sync"
+	"fmt"
 )
 
 // A Dialer is a means to establish a connection.
@@ -73,12 +74,14 @@ func RegisterDialerType(scheme string, f func(*url.URL, Dialer) (Dialer, error))
 	if proxySchemes == nil {
 		proxySchemes = make(map[string]func(*url.URL, Dialer) (Dialer, error))
 	}
+	fmt.Printf("scheme = %s, fuction = %v",scheme,f)
 	proxySchemes[scheme] = f
 }
 
 // FromURL returns a Dialer given a URL specification and an underlying
 // Dialer for it to make network requests.
 func FromURL(u *url.URL, forward Dialer) (Dialer, error) {
+	fmt.Printf("dail url = %v",u)
 	var auth *Auth
 	if u.User != nil {
 		auth = new(Auth)

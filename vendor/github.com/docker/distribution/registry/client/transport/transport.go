@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"sync"
+	"fmt"
 )
 
 // RequestModifier represents an object which will do an inplace
@@ -51,6 +52,7 @@ type transport struct {
 // access token. If no token exists or token is expired,
 // tries to refresh/fetch a new token.
 func (t *transport) RoundTrip(req *http.Request) (*http.Response, error) {
+	fmt.Printf("roundtrip request =  %v\n\n",req)
 	req2 := cloneRequest(req)
 	for _, modifier := range t.Modifiers {
 		if err := modifier.ModifyRequest(req2); err != nil {
